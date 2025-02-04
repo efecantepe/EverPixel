@@ -9,56 +9,71 @@ class SingleFilterPage extends StatefulWidget {
   const SingleFilterPage({super.key});
 
   @override
-  State<SingleFilterPage> createState() => _MyAppState();
+  State<SingleFilterPage> createState() => _SingleFilterPageState();
 }
 
-class _MyAppState extends State<SingleFilterPage> {
-
+class _SingleFilterPageState extends State<SingleFilterPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Consumer<SingleFilterModel>(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: Consumer<SingleFilterModel>(
+          builder: (context, value, child) => Scaffold(
 
-        builder: (context, value, child) => Scaffold(
-        
-          body: SafeArea(
-        
-            child: SizedBox(
-        
-              width: double.infinity,
-        
-              child: Column(
-                
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+              backgroundColor: Colors.blue[50],
               
-                children: [
-              
-                  ElevatedButton(onPressed: () {
-                    final singleFilter = context.read<SingleFilterModel>();
-                    singleFilter.pickImageFromGallery();  
-                  },  
-                  
-                  child: Text("Pick Gallery")),
-                  SizedBox(height: 24,),
-                  ElevatedButton(onPressed: () => {}, child: Text("Pick Camera")),
-                  SizedBox(height: 24,),
-                  value.selectedImage != null ? Image.file(value.selectedImage!) : Text("Please Select Image")
-                ],
-              
+              bottomNavigationBar: BottomAppBar(
+                color: Colors.yellow[100],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.image, color: Colors.green),
+                    ),
+                    IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.filter_b_and_w),
+                    ),
+                    IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.blur_on, color: Colors.blue),
+                    ),
+                    IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.auto_awesome,
+                          color: const Color.fromARGB(255, 235, 127, 163)),
+                    ),
+                    IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.border_all),
+                    ),
+                  ],
+                ),
               ),
-            ),
-        
-          )
-        
-        ), 
-      )
-    );
+              body: SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Center(
+                    child: value.selectedImage != null
+                        ? Image.file(value.selectedImage!)
+                        : TextButton(
+                            onPressed: () {
+                              final singleFilter =
+                                  context.read<SingleFilterModel>();
+                              singleFilter.pickImageFromGallery();
+                            },
+                            child: Text(
+                              "Pick From Gallery",
+                              style: TextStyle(fontSize: 20),
+                            )),
+                  ),
+                ),
+              )),
+        ));
   }
-
 }
