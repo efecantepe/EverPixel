@@ -1,9 +1,11 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:everpixel/single_filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:c_plugin/c_plugin.dart';
 
 class SingleFilterPage extends StatefulWidget {
   const SingleFilterPage({super.key});
@@ -32,7 +34,11 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: () => {},
+                      onPressed: () {
+
+                        print(sum(1, 3));
+
+                      },
                       icon: Icon(Icons.image, color: Colors.green),
                     ),
                     IconButton(
@@ -52,6 +58,16 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                       onPressed: () => {},
                       icon: Icon(Icons.border_all),
                     ),
+
+                    IconButton(
+                      onPressed: () {
+
+                          
+
+                      },
+                      icon: Icon(Icons.abc),
+                    ),
+
                   ],
                 ),
               ),
