@@ -21,3 +21,11 @@ FFI_PLUGIN_EXPORT int sum_long_running(int a, int b) {
 #endif
   return a + b;
 }
+
+FFI_PLUGIN_EXPORT int efe(int a, int b){
+  return a - b;
+}
+
+// FFI_PLUGIN_EXPORT int anotherFunction(int a, int b, int c){
+//   return a + b + c;
+// }

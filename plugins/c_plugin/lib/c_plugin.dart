@@ -13,6 +13,8 @@ import 'c_plugin_bindings_generated.dart';
 /// only do this for native functions which are guaranteed to be short-lived.
 int sum(int a, int b) => _bindings.sum(a, b);
 
+int efe(int a, int b) => _bindings.efe(a, b);
+
 /// A longer lived native function, which occupies the thread calling it.
 ///
 /// Do not call these kind of native functions in the main isolate. They will

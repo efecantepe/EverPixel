@@ -66,4 +66,26 @@ class CPluginBindings {
           'sum_long_running');
   late final _sum_long_running =
       _sum_long_runningPtr.asFunction<int Function(int, int)>();
+
+
+  int efe(
+
+    int a,
+    int b,
+
+  ){
+
+    return _efe(
+      a,
+      b,
+    );
+
+  }
+
+  late final _efePtr = 
+            _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('efe');
+  
+  late final _efe =
+      _efePtr.asFunction<int Function(int, int)>();
+  
 }

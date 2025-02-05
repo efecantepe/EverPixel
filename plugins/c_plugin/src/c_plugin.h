@@ -20,7 +20,7 @@
 // For very short-lived functions, it is fine to call them on the main isolate.
 // They will block the Dart execution while running the native function, so
 // only do this for native functions which are guaranteed to be short-lived.
-FFI_PLUGIN_EXPORT int sum(int a, int b);
+FFI_PLUGIN_EXPORT int efe(int a, int b);
 
 // A longer lived native function, which occupies the thread calling it.
 //
@@ -28,3 +28,5 @@ FFI_PLUGIN_EXPORT int sum(int a, int b);
 // block Dart execution. This will cause dropped frames in Flutter applications.
 // Instead, call these native functions on a separate isolate.
 FFI_PLUGIN_EXPORT int sum_long_running(int a, int b);
+
+FFI_PLUGIN_EXPORT int anotherFunction(int a, int b, int c);
