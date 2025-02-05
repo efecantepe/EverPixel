@@ -1,0 +1,40 @@
+{
+  "buildFiles": [
+    "C:\\efe\\2024-2025\\EverPixel\\everpixel\\android\\app\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\90543\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\efe\\2024-2025\\EverPixel\\everpixel\\android\\app\\.cxx\\Debug\\5s5m2o4u\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\90543\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\efe\\2024-2025\\EverPixel\\everpixel\\android\\app\\.cxx\\Debug\\5s5m2o4u\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "my_functions::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "my_functions",
+      "output": "C:\\efe\\2024-2025\\EverPixel\\everpixel\\build\\app\\intermediates\\cxx\\Debug\\5s5m2o4u\\obj\\x86\\libmy_functions.so",
+      "runtimeFiles": [
+        "C:\\efe\\2024-2025\\EverPixel\\everpixel\\android\\app\\src\\main\\jniLibs\\x86\\libopencv_java4.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "C:\\Users\\90543\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\90543\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

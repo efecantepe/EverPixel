@@ -44,7 +44,8 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                     IconButton(
                       onPressed: () {
 
-                        print(efe(1,2));
+                        final singleFilter = context.read<SingleFilterModel>();
+                        singleFilter.convertGray();
 
                       },
                       icon: Icon(Icons.filter_b_and_w),

@@ -28,6 +28,29 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        externalNativeBuild{
+            externalNativeBuild {
+                cmake {
+                    cppFlags '-frtti -fexceptions -std=c++11'
+                    arguments "-DANDROID_STL=c++_shared"
+                }
+            }
+        }
+
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["libs"]
+        }
+    }
+
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
     }
 
     buildTypes {
