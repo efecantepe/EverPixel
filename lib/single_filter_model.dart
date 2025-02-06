@@ -37,6 +37,13 @@ class SingleFilterModel extends ChangeNotifier {
   File? _mainImage; 
   File? _selectedImage;
   File? get selectedImage => _selectedImage;
+  File? get mainImage => _mainImage;
+
+  deletePhotos(){
+    _selectedImage = null;
+    _mainImage = null;
+    notifyListeners();
+  }
 
   Future pickImageFromGallery() async {
     ImagePicker imagePicker = ImagePicker();
