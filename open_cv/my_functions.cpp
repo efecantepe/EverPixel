@@ -2,9 +2,7 @@
 #include <chrono>
 
 #ifdef __ANDROID__
-
 #include <android/log.h>
-
 #endif
 
 using namespace cv;
@@ -32,16 +30,90 @@ extern "C"
         return CV_VERSION;
     }
 
-    __attribute__((visibility("default"))) __attribute__((used)) void convertImageToGrayImage(char *inputImagePath, char *outputPath)
+    __attribute__((visibility("default"))) __attribute__((used)) 
+    void convertImageToGrayImage(char *inputImagePath, char *outputPath)
     {
         platform_log("PATH %s: ", inputImagePath);
         cv::Mat img = cv::imread(inputImagePath);
-        platform_log("Length: %d", img.rows);
+        if (img.empty())
+        {
+            platform_log("Error: Could not load image from file: %s", inputImagePath);
+            return;
+        }
+        platform_log("Image loaded successfully. Dimensions: %d x %d", img.rows, img.cols);
+
         cv::Mat graymat;
         cvtColor(img, graymat, cv::COLOR_BGR2GRAY);
-        platform_log("Output Path: %s", outputPath);
         cv::imwrite(outputPath, graymat);
-        platform_log("Gray Image Length: %d", graymat.rows);
-        platform_log("Image writed again ");
+
+        platform_log("Gray image saved successfully. Dimensions: %d x %d", graymat.rows, graymat.cols);
+    }
+
+    __attribute__((visibility("default"))) __attribute__((used)) 
+    void convertImageToBlurImage(char *inputImagePath, char *outputPath)
+    {
+        platform_log("Input Image Path: %s", inputImagePath);
+
+        cv::Mat image = cv::imread(inputImagePath);
+        if (image.empty())
+        {
+            platform_log("Error: Could not load image from file: %s", inputImagePath);
+            return;
+        }
+        platform_log("Image loaded successfully. Dimensions: %d x %d", image.rows, image.cols);
+
+        cv::Mat blurredImage;
+        cv::GaussianBlur(image, blurredImage, cv::Size(15, 15), 0);
+        cv::imwrite(outputPath, blurredImage);
+
+        platform_log("Blurred image saved successfully. Dimensions: %d x %d", blurredImage.rows, blurredImage.cols);
+    }
+
+    __attribute__((visibility("default"))) __attribute__((used)) 
+    void convertImageToSharpenImage(char *inputImagePath, char *outputPath)
+    {
+        platform_log("Input Image Path: %s", inputImagePath);
+
+        cv::Mat image = cv::imread(inputImagePath);
+        if (image.empty())
+        {
+            platform_log("Error: Could not load image from file: %s", inputImagePath);
+            return;
+        }
+        platform_log("Image loaded successfully. Dimensions: %d x %d", image.rows, image.cols);
+
+        cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
+                          0, -1, 0,
+                          -1, 5, -1,
+                          0, -1, 0);
+
+        cv::Mat sharpenedImage;
+        cv::filter2D(image, sharpenedImage, -1, kernel);
+        cv::imwrite(outputPath, sharpenedImage);
+
+        platform_log("Sharpened image saved successfully. Dimensions: %d x %d", sharpenedImage.rows, sharpenedImage.cols);
+    }
+
+    __attribute__((visibility("default"))) __attribute__((used)) 
+    void convertImageToEdgeImage(char *inputImagePath, char *outputPath)
+    {
+        platform_log("Input Image Path: %s", inputImagePath);
+
+        cv::Mat image = cv::imread(inputImagePath, cv::IMREAD_GRAYSCALE);
+        if (image.empty())
+        {
+            platform_log("Error: Could not load image from file: %s", inputImagePath);
+            return;
+        }
+        platform_log("Image loaded successfully. Dimensions: %d x %d", image.rows, image.cols);
+
+        cv::Mat blurredImage;
+        cv::GaussianBlur(image, blurredImage, cv::Size(5, 5), 0);
+
+        cv::Mat edges;
+        cv::Canny(blurredImage, edges, 50, 150);
+        cv::imwrite(outputPath, edges);
+
+        platform_log("Edge-detected image saved successfully. Dimensions: %d x %d", edges.rows, edges.cols);
     }
 }

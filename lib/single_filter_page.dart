@@ -36,7 +36,8 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                     IconButton(
                       onPressed: () {
 
-                        print(sum(1, 3));
+                        final singleFiler = context.read<SingleFilterModel>();
+                        singleFiler.convertOriginal();
 
                       },
                       icon: Icon(Icons.image, color: Colors.green),
@@ -51,16 +52,29 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                       icon: Icon(Icons.filter_b_and_w),
                     ),
                     IconButton(
-                      onPressed: () => {},
+                      onPressed: () {
+                        final singleFilter = context.read<SingleFilterModel>();
+                        singleFilter.convertBlur();
+                      },
                       icon: Icon(Icons.blur_on, color: Colors.blue),
                     ),
                     IconButton(
-                      onPressed: () => {},
+                      onPressed: () {
+
+                        final singleFilter = context.read<SingleFilterModel>();
+                        singleFilter.convertSharpen();
+
+                      },
                       icon: Icon(Icons.auto_awesome,
                           color: const Color.fromARGB(255, 235, 127, 163)),
                     ),
                     IconButton(
-                      onPressed: () => {},
+                      onPressed: () {
+
+                        final singleFilter = context.read<SingleFilterModel>();
+                        singleFilter.convertEdge();
+
+                      },
                       icon: Icon(Icons.border_all),
                     ),
 
