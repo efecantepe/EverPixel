@@ -39,6 +39,11 @@ class SingleFilterModel extends ChangeNotifier {
   File? get selectedImage => _selectedImage;
   File? get mainImage => _mainImage;
 
+  // Holding multiple elements for carousel slider
+  List<File?> _multipleImages = [];
+  List<File?> get multipleImages => _multipleImages;
+
+
   deletePhotos(){
     _selectedImage = null;
     _mainImage = null;
@@ -52,6 +57,7 @@ class SingleFilterModel extends ChangeNotifier {
     if (returnedImage != null) {
       _mainImage = File(returnedImage.path);
       _selectedImage = _mainImage;
+      _multipleImages.add(_mainImage);
       notifyListeners();
     }
   }
