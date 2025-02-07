@@ -1,12 +1,7 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:before_after/before_after.dart';
 import 'package:everpixel/filter_model.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:c_plugin/c_plugin.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class SingleFilterPage extends StatefulWidget {
@@ -36,15 +31,6 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
             ],
           ),
           backgroundColor: Colors.blue[50],
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.yellow[100],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-              ],
-            ),
-          ),
           body: SafeArea(
             child: SizedBox(
               width: double.infinity,
@@ -97,87 +83,94 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-
         Spacer(),
-
-        GestureDetector(
-            onDoubleTap: () {
-              setState(() {
-                _isSliderActivated = !_isSliderActivated;
-              });
-            },
-            onLongPress: () {
-              setState(() {
-                _isHorizontal = !_isHorizontal;
-              });
-            },
-            child: _isSliderActivated
-                ? BeforeAfter(
-                    value: _value,
-                    before: Image.file(widget.filterValue.selectedImage!),
-                    after: Image.file(widget.filterValue.mainImage!),
-                    hideThumb: false,
-                    direction: _isHorizontal
-                        ? SliderDirection.horizontal
-                        : SliderDirection.vertical,
-                    onValueChanged: (value) {
-                      setState(() {
-                        _value = value;
-                      });
-                    },
-                  )
-                : Image.file(widget.filterValue.selectedImage!)),
-        TextButton(
-            onPressed: () {
-              final singleFilter = context.read<SingleFilterModel>();
-              singleFilter.deletePhotos();
-            },
-            child: Text("X")),
-          
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                      onPressed: () {
-                        final singleFiler = context.read<SingleFilterModel>();
-                        singleFiler.convertOriginal();
-                      },
-                      icon: Icon(Icons.image, color: Colors.green),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final singleFilter = context.read<SingleFilterModel>();
-                        singleFilter.convertGray();
-                      },
-                      icon: Icon(Icons.filter_b_and_w),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final singleFilter = context.read<SingleFilterModel>();
-                        singleFilter.convertBlur();
-                      },
-                      icon: Icon(Icons.blur_on, color: Colors.blue),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final singleFilter = context.read<SingleFilterModel>();
-                        singleFilter.convertSharpen();
-                      },
-                      icon: Icon(Icons.auto_awesome,
-                          color: const Color.fromARGB(255, 235, 127, 163)),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final singleFilter = context.read<SingleFilterModel>();
-                        singleFilter.convertEdge();
-                      },
-                      icon: Icon(Icons.border_all),
-                    ),
+        SizedBox(
+          width: double.infinity,
+          child: CarouselSlider(
+            items: [
+              GestureDetector(
+                onDoubleTap: () {
+                  setState(() {
+                    _isSliderActivated = !_isSliderActivated;
+                  });
+                },
+                onLongPress: () {
+                  setState(() {
+                    _isHorizontal = !_isHorizontal;
+                  });
+                },
+                child: _isSliderActivated
+                    ? BeforeAfter(
+                        value: _value,
+                        before: Image.file(
+                          widget.filterValue.selectedImage!,
+                        ),
+                        after: Image.file(widget.filterValue.mainImage!),
+                        hideThumb: false,
+                        direction: _isHorizontal
+                            ? SliderDirection.horizontal
+                            : SliderDirection.vertical,
+                        onValueChanged: (value) {
+                          setState(() {
+                            _value = value;
+                          });
+                        },
+                      )
+                    : Image.file(
+                        widget.filterValue.selectedImage!,
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ],
+            options: CarouselOptions(
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+                autoPlay: false,
+                enableInfiniteScroll: false),
           ),
-
-
+        ),
+        Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                final singleFiler = context.read<SingleFilterModel>();
+                singleFiler.convertOriginal();
+              },
+              icon: Icon(Icons.image, color: Colors.green),
+            ),
+            IconButton(
+              onPressed: () {
+                final singleFilter = context.read<SingleFilterModel>();
+                singleFilter.convertGray();
+              },
+              icon: Icon(Icons.filter_b_and_w),
+            ),
+            IconButton(
+              onPressed: () {
+                final singleFilter = context.read<SingleFilterModel>();
+                singleFilter.convertBlur();
+              },
+              icon: Icon(Icons.blur_on, color: Colors.blue),
+            ),
+            IconButton(
+              onPressed: () {
+                final singleFilter = context.read<SingleFilterModel>();
+                singleFilter.convertSharpen();
+              },
+              icon: Icon(Icons.auto_awesome,
+                  color: const Color.fromARGB(255, 235, 127, 163)),
+            ),
+            IconButton(
+              onPressed: () {
+                final singleFilter = context.read<SingleFilterModel>();
+                singleFilter.convertEdge();
+              },
+              icon: Icon(Icons.border_all),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -198,7 +191,6 @@ class MultipleFilter extends StatefulWidget {
 }
 
 class _MultipleFilterState extends State<MultipleFilter> {
-  
   double _value = 0;
   bool _isSliderActivated = false;
   bool _isHorizontal = false;
@@ -210,60 +202,145 @@ class _MultipleFilterState extends State<MultipleFilter> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Spacer(),
         CarouselSlider.builder(
+            itemCount: widget.filterValue.multipleImages.length,
+            options: CarouselOptions(
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+                autoPlay: false,
+                enableInfiniteScroll: false),
+            itemBuilder: (context, index, realIdx) {
+              return GestureDetector(
+                  onDoubleTap: () {
+                    setState(() {
+                      _isSliderActivated = !_isSliderActivated;
+                    });
+                  },
+                  onLongPress: () {
+                    setState(() {
+                      _isHorizontal = !_isHorizontal;
+                    });
+                  },
+                  child: _isSliderActivated
+                      ? BeforeAfter(
+                          value: _value,
+                          after: Image.file(
+                              widget.filterValue.multipleImages[index]!),
+                          before: Image.file(index == 0
+                              ? widget.filterValue.mainImage!
+                              : widget.filterValue.multipleImages[index - 1]!),
+                          hideThumb: false,
+                          direction: _isHorizontal
+                              ? SliderDirection.horizontal
+                              : SliderDirection.vertical,
+                          onValueChanged: (value) {
+                            setState(() {
+                              _value = value;
+                            });
+                          },
+                        )
+                      : Image.file(widget.filterValue.multipleImages[index]!));
+            }),
+        Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _filterList.map((item) {
+                return IconButton(
+                  icon: getIcon(item),
+                  onPressed: () {
+                    setState(() {
+                      _filterList.remove(item);
 
-          itemCount: widget.filterValue.multipleImages.length,
-          options: CarouselOptions(
+                      if (_filterList.length == 0) {
+                        final singleFilter = context.read<SingleFilterModel>();
+                        singleFilter.applyMultipleFilters(_filterList);
+                      }
 
-            aspectRatio: 2.0,
-            enlargeCenterPage: true,
-            autoPlay: false,
-            enableInfiniteScroll: false
-
-          ),
-
-          itemBuilder: (context, index, realIdx) {
-            return GestureDetector(
-                onDoubleTap: () {
-                  setState(() {
-                    _isSliderActivated = !_isSliderActivated;
-                  });
-                },
-                onLongPress: () {
-                  setState(() {
-                    _isHorizontal = !_isHorizontal;
-                  });
-                },
-                child: _isSliderActivated
-                    ? BeforeAfter(
-                        value: _value,
-                        before: Image.file(widget.filterValue.selectedImage!),
-                        after: Image.file(widget.filterValue.mainImage!),
-                        hideThumb: false,
-                        direction: _isHorizontal
-                            ? SliderDirection.horizontal
-                            : SliderDirection.vertical,
-                        onValueChanged: (value) {
-                          setState(() {
-                            _value = value;
-                          });
-                        },
-                      )
-                    : Image.file(widget.filterValue.selectedImage!));
-          }
+                      final singleFilter = context.read<SingleFilterModel>();
+                      singleFilter.applyMultipleFilters(_filterList);
+                    });
+                  },
+                );
+              }).toList()),
         ),
-        TextButton(
-            onPressed: () {
-              final singleFilter = context.read<SingleFilterModel>();
-              singleFilter.deletePhotos();
-            },
-            child: Text("x")),
-
-
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _filterList.add("O");
+                });
+              },
+              icon: Icon(Icons.image, color: Colors.green),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _filterList.add("G");
+                  final singleFilter = context.read<SingleFilterModel>();
+                  singleFilter.applyMultipleFilters(_filterList);
+                });
+              },
+              icon: Icon(Icons.filter_b_and_w),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _filterList.add("B");
+                  final singleFilter = context.read<SingleFilterModel>();
+                  singleFilter.applyMultipleFilters(_filterList);
+                });
+              },
+              icon: Icon(Icons.blur_on, color: Colors.blue),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _filterList.add("S");
+                  final singleFilter = context.read<SingleFilterModel>();
+                  singleFilter.applyMultipleFilters(_filterList);
+                });
+              },
+              icon: Icon(Icons.auto_awesome,
+                  color: const Color.fromARGB(255, 235, 127, 163)),
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _filterList.add("E");
+                  final singleFilter = context.read<SingleFilterModel>();
+                  singleFilter.applyMultipleFilters(_filterList);
+                });
+              },
+              icon: Icon(Icons.border_all),
+            ),
+          ],
+        ),
       ],
-
-
-
     );
   }
+}
+
+Icon getIcon(String iconName) {
+  if (iconName == "G") {
+    return Icon(Icons.filter_b_and_w);
+  }
+
+  if (iconName == "B") {
+    return Icon(Icons.blur_on);
+  }
+
+  if (iconName == "S") {
+    return Icon(Icons.auto_awesome);
+  }
+
+  if (iconName == "E") {
+    return Icon(Icons.border_all);
+  }
+
+  return Icon(Icons.image);
 }

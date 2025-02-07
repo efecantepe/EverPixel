@@ -31,9 +31,11 @@ extern "C"
     }
 
     __attribute__((visibility("default"))) __attribute__((used)) 
-    void convertImageToGrayImage(char *inputImagePath, char *outputPath)
+    void convertImageToGrayImage(const char *inputImagePath, const char *outputPath)
     {
         platform_log("PATH %s: ", inputImagePath);
+        
+        // Load the image
         cv::Mat img = cv::imread(inputImagePath);
         if (img.empty())
         {
@@ -41,12 +43,30 @@ extern "C"
             return;
         }
         platform_log("Image loaded successfully. Dimensions: %d x %d", img.rows, img.cols);
-
+    
+        // Convert to grayscale
         cv::Mat graymat;
-        cvtColor(img, graymat, cv::COLOR_BGR2GRAY);
-        cv::imwrite(outputPath, graymat);
-
-        platform_log("Gray image saved successfully. Dimensions: %d x %d", graymat.rows, graymat.cols);
+        cv::cvtColor(img, graymat, cv::COLOR_BGR2GRAY);
+    
+        // Remove the existing file if it exists
+        if (std::remove(outputPath) == 0)
+        {
+            platform_log("Existing file deleted: %s", outputPath);
+        }
+        else
+        {
+            platform_log("No existing file found or unable to delete: %s", outputPath);
+        }
+    
+        // Write the new grayscale image
+        if (cv::imwrite(outputPath, graymat))
+        {
+            platform_log("Gray image saved successfully. Dimensions: %d x %d", graymat.rows, graymat.cols);
+        }
+        else
+        {
+            platform_log("Error: Failed to write the image to file: %s", outputPath);
+        }
     }
 
     __attribute__((visibility("default"))) __attribute__((used)) 

@@ -34,17 +34,17 @@ final _convertImageToEdgeImage = _lib
     .asFunction<void Function(Pointer<Utf8>, Pointer<Utf8>)>();
 
 class SingleFilterModel extends ChangeNotifier {
-  File? _mainImage; 
+  File? _mainImage;
   File? _selectedImage;
   File? get selectedImage => _selectedImage;
   File? get mainImage => _mainImage;
 
   // Holding multiple elements for carousel slider
+  List<String> _filterList = [];
   List<File?> _multipleImages = [];
   List<File?> get multipleImages => _multipleImages;
 
-
-  deletePhotos(){
+  deletePhotos() {
     _selectedImage = null;
     _mainImage = null;
     notifyListeners();
@@ -58,76 +58,195 @@ class SingleFilterModel extends ChangeNotifier {
       _mainImage = File(returnedImage.path);
       _selectedImage = _mainImage;
       _multipleImages.add(_mainImage);
+      _filterList.add("O");
       notifyListeners();
     }
   }
 
-  Future<void> convertOriginal() async{
-
-    if(_mainImage == null) return;
+  Future<void> convertOriginal() async {
+    if (_mainImage == null) return;
 
     _selectedImage = _mainImage;
     notifyListeners();
-
   }
 
-  Future<void> convertGray() async {
-    if (_mainImage == null) return;
+  Future<String?> convertGray({File? mainImage, String? outputPath}) async {
+    final image = mainImage ?? _mainImage;
+    final output = outputPath ?? "/gray_image";
 
-    final Directory? downloadDir = await getDownloadsDirectory();
-    final outputPath = '${downloadDir!.path}/gray_image.jpg';
 
-    convertImageToGrayImage(_mainImage!.path, outputPath);
+    final Directory? tempDir = await getTemporaryDirectory();
+    final defaultOutputPath = '${tempDir!.path}$output.jpg';
+    final outputFilePath = outputPath ?? defaultOutputPath;
 
-    _selectedImage = File(outputPath);
+    
+    if (image == _mainImage) {
+
+      print("SADJKHSDKJHDSAKJDSAHDASKJ");
+
+
+      print("SADJKHSDKJHDSAKJDSAHDASKJ");
+
+      convertImageToGrayImage(_mainImage!.path, outputFilePath);
+      _selectedImage = File(outputFilePath);
+      notifyListeners();
+      return null;
+    }
+
+    convertImageToGrayImage(image!.path, outputFilePath);
+
+    _selectedImage = File(outputFilePath);
     notifyListeners();
 
-    print("Gray image saved at: $outputPath");
+    return outputFilePath;
   }
 
-  Future<void> convertBlur() async {
-    if (_mainImage == null) return;
+  Future<String?> convertBlur({File? mainImage, String? outputPath}) async {
+    final image = mainImage ?? _mainImage;
+    final output = outputPath ?? "/blur_image";
 
-    final Directory? downloadDir = await getDownloadsDirectory();
-    final outputPath = '${downloadDir!.path}/blur_image.jpg';
+    if (image == null) return null;
 
-    convertImageToBlurImage(_mainImage!.path, outputPath);
+    final Directory? tempDir = await getTemporaryDirectory();
+    final defaultOutputPath = '${tempDir!.path}$output.jpg';
+    final outputFilePath = outputPath ?? defaultOutputPath;
 
-    _selectedImage = File(outputPath);
+    convertImageToBlurImage(image.path, outputFilePath);
+
+    _selectedImage = File(outputFilePath);
     notifyListeners();
 
-    print("Blur image saved at: $outputPath");
+    return outputFilePath;
   }
 
-  Future<void> convertSharpen() async {
-    if (_mainImage == null) return;
+  Future<String?> convertSharpen({File? mainImage, String? outputPath}) async {
+    final image = mainImage ?? _mainImage;
+    final output = outputPath ?? "/sharpen_image";
 
-    final Directory? downloadDir = await getDownloadsDirectory();
-    final outputPath = '${downloadDir!.path}/sharpen_image.jpg';
+    if (image == null) return null;
 
-    convertImageToSharpenImage(_mainImage!.path, outputPath);
+    final Directory? tempDir = await getTemporaryDirectory();
+    final defaultOutputPath = '${tempDir!.path}$output.jpg';
+    final outputFilePath = outputPath ?? defaultOutputPath;
 
-    _selectedImage = File(outputPath);
+    convertImageToSharpenImage(image.path, outputFilePath);
+
+    _selectedImage = File(outputFilePath);
     notifyListeners();
 
-    print("Sharpened image saved at: $outputPath");
+    return outputFilePath;
   }
 
-  Future<void> convertEdge() async {
-    if (_mainImage == null) return;
+  Future<String?> convertEdge({File? mainImage, String? outputPath}) async {
+    final image = mainImage ?? _mainImage;
 
-    final Directory? downloadDir = await getDownloadsDirectory();
-    final outputPath = '${downloadDir!.path}/edge_image.jpg';
+    final output = outputPath ?? "/edge_image";
 
-    convertImageToEdgeImage(_mainImage!.path, outputPath);
+    if (image == null) return null;
 
-    _selectedImage = File(outputPath);
+    final Directory? tempDir = await getTemporaryDirectory();
+    final defaultOutputPath = '${tempDir!.path}$output.jpg';
+    final outputFilePath = outputPath ?? defaultOutputPath;
+
+    convertImageToEdgeImage(image.path, outputFilePath);
+
+    _selectedImage = File(outputFilePath);
     notifyListeners();
 
-    print("Edge-detected image saved at: $outputPath");
+    return outputFilePath;
   }
 
+  Future<void> applyMultipleFilters(List<String> filters) async {
+    if (filters.isEmpty) {
+      _multipleImages.clear();
+      _multipleImages.add(_mainImage);
+      _filterList = List.from(filters);
+      notifyListeners();
+    }
+
+    if (_mainImage == null || filters.isEmpty) return;
+
+    int commonPrefixLength = 0;
+
+    // Find the first different element in the filter list
+    while (commonPrefixLength < _filterList.length &&
+        commonPrefixLength < filters.length &&
+        _filterList[commonPrefixLength] == filters[commonPrefixLength]) {
+      commonPrefixLength++;
+    }
+
+    // If all elements are the same, return early
+    if (commonPrefixLength == filters.length &&
+        commonPrefixLength == _filterList.length) {
+      return;
+    }
+
+    File? currentImage = (commonPrefixLength == 0)
+        ? _mainImage
+        : _multipleImages[commonPrefixLength - 1];
+
+    List<File?> intermediateImages =
+        _multipleImages.sublist(0, commonPrefixLength);
+
+    for (int i = commonPrefixLength; i < filters.length; i++) {
+      String? outputPath;
+      switch (filters[i]) {
+        case "G":
+          outputPath = await convertGray(mainImage: currentImage);
+          break;
+        case "B":
+          outputPath = await convertBlur(mainImage: currentImage);
+          break;
+        case "S":
+          outputPath = await convertSharpen(mainImage: currentImage);
+          break;
+        case "E":
+          outputPath = await convertEdge(mainImage: currentImage);
+          break;
+        case "O":
+          outputPath = _mainImage!.path;
+          break;
+        default:
+          continue;
+      }
+
+      if (outputPath != null) {
+        currentImage = File(outputPath);
+        intermediateImages.add(currentImage);
+      }
+    }
+
+    _multipleImages = intermediateImages;
+    _selectedImage = currentImage;
+    _filterList = List.from(filters);
+    notifyListeners();
+  }
+
+  Future<void> resetAll() async {
+    _mainImage = null;
+    _selectedImage = null;
+    _multipleImages = [];
+    _filterList = [];
+
+    final Directory tempDir = await getTemporaryDirectory();
+    await clearTemporaryDirectory(tempDir);
+    notifyListeners();
+  }
+
+  Future<void> clearTemporaryDirectory(Directory tempDir) async {
   
+  final files = tempDir.listSync();
+
+  for (var file in files) {
+    try {
+      if (file is File) {
+        await file.delete();
+      }
+    } catch (e) {
+      print('Error deleting file: $e');
+    }
+  }
+}
 
   String getOpenCVVersion() {
     return _getOpenCVVersion().cast<Utf8>().toDartString();

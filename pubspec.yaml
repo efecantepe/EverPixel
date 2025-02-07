@@ -43,10 +43,12 @@ dependencies:
     path: plugins/c_plugin
   path_provider: ^2.1.5
   carousel_slider: ^5.0.0
+  image: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
