@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 DynamicLibrary _lib = Platform.isAndroid
     ? DynamicLibrary.open('libmy_functions.so')
@@ -50,7 +51,7 @@ class SingleFilterModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future pickImageFromGallery() async {
+  Future<void> pickImageFromGallery() async {
     ImagePicker imagePicker = ImagePicker();
     final returnedImage =
         await imagePicker.pickImage(source: ImageSource.gallery);
@@ -70,90 +71,61 @@ class SingleFilterModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> convertGray({File? mainImage, String? outputPath}) async {
+  Future<String?> _convertImage(
+      String filterType, File? mainImage, String? outputPath) async {
     final image = mainImage ?? _mainImage;
-    final output = outputPath ?? "/gray_image";
+    if (image == null) return null;
 
+    final Directory tempDir = await getTemporaryDirectory();
+    final String uniqueFileName =
+        '${path.basenameWithoutExtension(image.path)}_$filterType${path.extension(image.path)}';
+    final outputFilePath = path.join(tempDir.path, uniqueFileName);
 
-    final Directory? tempDir = await getTemporaryDirectory();
-    final defaultOutputPath = '${tempDir!.path}$output.jpg';
-    final outputFilePath = outputPath ?? defaultOutputPath;
+    final inputPathUtf8 = image.path.toNativeUtf8();
+    final outputPathUtf8 = outputFilePath.toNativeUtf8();
 
-    
-    if (image == _mainImage) {
-
-      print("SADJKHSDKJHDSAKJDSAHDASKJ");
-
-
-      print("SADJKHSDKJHDSAKJDSAHDASKJ");
-
-      convertImageToGrayImage(_mainImage!.path, outputFilePath);
-      _selectedImage = File(outputFilePath);
-      notifyListeners();
-      return null;
+    try {
+      switch (filterType) {
+        case 'G':
+          _convertImageToGrayImage(inputPathUtf8, outputPathUtf8);
+          break;
+        case 'B':
+          _convertImageToBlurImage(inputPathUtf8, outputPathUtf8);
+          break;
+        case 'S':
+          _convertImageToSharpenImage(inputPathUtf8, outputPathUtf8);
+          break;
+        case 'E':
+          _convertImageToEdgeImage(inputPathUtf8, outputPathUtf8);
+          break;
+        default:
+          return null;
+      }
+    } finally {
+      calloc.free(inputPathUtf8);
+      calloc.free(outputPathUtf8);
     }
-
-    convertImageToGrayImage(image!.path, outputFilePath);
 
     _selectedImage = File(outputFilePath);
     notifyListeners();
 
     return outputFilePath;
+  }
+
+  Future<String?> convertGray({File? mainImage, String? outputPath}) async {
+    return _convertImage('G', mainImage, outputPath);
   }
 
   Future<String?> convertBlur({File? mainImage, String? outputPath}) async {
-    final image = mainImage ?? _mainImage;
-    final output = outputPath ?? "/blur_image";
-
-    if (image == null) return null;
-
-    final Directory? tempDir = await getTemporaryDirectory();
-    final defaultOutputPath = '${tempDir!.path}$output.jpg';
-    final outputFilePath = outputPath ?? defaultOutputPath;
-
-    convertImageToBlurImage(image.path, outputFilePath);
-
-    _selectedImage = File(outputFilePath);
-    notifyListeners();
-
-    return outputFilePath;
+    return _convertImage('B', mainImage, outputPath);
   }
 
   Future<String?> convertSharpen({File? mainImage, String? outputPath}) async {
-    final image = mainImage ?? _mainImage;
-    final output = outputPath ?? "/sharpen_image";
-
-    if (image == null) return null;
-
-    final Directory? tempDir = await getTemporaryDirectory();
-    final defaultOutputPath = '${tempDir!.path}$output.jpg';
-    final outputFilePath = outputPath ?? defaultOutputPath;
-
-    convertImageToSharpenImage(image.path, outputFilePath);
-
-    _selectedImage = File(outputFilePath);
-    notifyListeners();
-
-    return outputFilePath;
+    return _convertImage('S', mainImage, outputPath);
   }
 
   Future<String?> convertEdge({File? mainImage, String? outputPath}) async {
-    final image = mainImage ?? _mainImage;
-
-    final output = outputPath ?? "/edge_image";
-
-    if (image == null) return null;
-
-    final Directory? tempDir = await getTemporaryDirectory();
-    final defaultOutputPath = '${tempDir!.path}$output.jpg';
-    final outputFilePath = outputPath ?? defaultOutputPath;
-
-    convertImageToEdgeImage(image.path, outputFilePath);
-
-    _selectedImage = File(outputFilePath);
-    notifyListeners();
-
-    return outputFilePath;
+    return _convertImage('E', mainImage, outputPath);
   }
 
   Future<void> applyMultipleFilters(List<String> filters) async {
@@ -234,41 +206,64 @@ class SingleFilterModel extends ChangeNotifier {
   }
 
   Future<void> clearTemporaryDirectory(Directory tempDir) async {
-  
-  final files = tempDir.listSync();
+    final files = tempDir.listSync();
 
-  for (var file in files) {
-    try {
-      if (file is File) {
-        await file.delete();
+    for (var file in files) {
+      try {
+        if (file is File) {
+          await file.delete();
+        }
+      } catch (e) {
+        print('Error deleting file: $e');
       }
-    } catch (e) {
-      print('Error deleting file: $e');
     }
   }
-}
 
   String getOpenCVVersion() {
     return _getOpenCVVersion().cast<Utf8>().toDartString();
   }
 
   void convertImageToGrayImage(String inputPath, String outputPath) {
-    _convertImageToGrayImage(
-        inputPath.toNativeUtf8(), outputPath.toNativeUtf8());
+    final inputPathUtf8 = inputPath.toNativeUtf8();
+    final outputPathUtf8 = outputPath.toNativeUtf8();
+    try {
+      _convertImageToGrayImage(inputPathUtf8, outputPathUtf8);
+    } finally {
+      calloc.free(inputPathUtf8);
+      calloc.free(outputPathUtf8);
+    }
   }
 
   void convertImageToBlurImage(String inputPath, String outputPath) {
-    _convertImageToBlurImage(
-        inputPath.toNativeUtf8(), outputPath.toNativeUtf8());
+    final inputPathUtf8 = inputPath.toNativeUtf8();
+    final outputPathUtf8 = outputPath.toNativeUtf8();
+    try {
+      _convertImageToBlurImage(inputPathUtf8, outputPathUtf8);
+    } finally {
+      calloc.free(inputPathUtf8);
+      calloc.free(outputPathUtf8);
+    }
   }
 
   void convertImageToSharpenImage(String inputPath, String outputPath) {
-    _convertImageToSharpenImage(
-        inputPath.toNativeUtf8(), outputPath.toNativeUtf8());
+    final inputPathUtf8 = inputPath.toNativeUtf8();
+    final outputPathUtf8 = outputPath.toNativeUtf8();
+    try {
+      _convertImageToSharpenImage(inputPathUtf8, outputPathUtf8);
+    } finally {
+      calloc.free(inputPathUtf8);
+      calloc.free(outputPathUtf8);
+    }
   }
 
   void convertImageToEdgeImage(String inputPath, String outputPath) {
-    _convertImageToEdgeImage(
-        inputPath.toNativeUtf8(), outputPath.toNativeUtf8());
+    final inputPathUtf8 = inputPath.toNativeUtf8();
+    final outputPathUtf8 = outputPath.toNativeUtf8();
+    try {
+      _convertImageToEdgeImage(inputPathUtf8, outputPathUtf8);
+    } finally {
+      calloc.free(inputPathUtf8);
+      calloc.free(outputPathUtf8);
+    }
   }
 }

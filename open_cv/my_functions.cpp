@@ -83,7 +83,7 @@ extern "C"
         platform_log("Image loaded successfully. Dimensions: %d x %d", image.rows, image.cols);
 
         cv::Mat blurredImage;
-        cv::GaussianBlur(image, blurredImage, cv::Size(15, 15), 0);
+        cv::GaussianBlur(image, blurredImage, cv::Size(51, 51), 0);
         cv::imwrite(outputPath, blurredImage);
 
         platform_log("Blurred image saved successfully. Dimensions: %d x %d", blurredImage.rows, blurredImage.cols);
