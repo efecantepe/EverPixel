@@ -176,6 +176,10 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> {
   }
 }
 
+/*
+  I used carousel slider for displaying the multiple images horizontally. I used BeforeAfter package to compare with the previous photo.
+*/
+
 class MultipleFilter extends StatefulWidget {
   BuildContext context;
   SingleFilterModel filterValue;

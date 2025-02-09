@@ -6,8 +6,15 @@ import 'package:ffi/ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
+
+/*
+
+  Defining functions for interfacing c++ code.
+
+*/
+
 DynamicLibrary _lib = Platform.isAndroid
-    ? DynamicLibrary.open('libmy_functions.so')
+    ? DynamicLibrary.open('libopencv.so')
     : DynamicLibrary.process();
 
 final _getOpenCVVersion = _lib
@@ -34,14 +41,22 @@ final _convertImageToEdgeImage = _lib
         'convertImageToEdgeImage')
     .asFunction<void Function(Pointer<Utf8>, Pointer<Utf8>)>();
 
+
+
+/* 
+
+    I used provider for statemanagement
+
+*/
+
 class SingleFilterModel extends ChangeNotifier {
-  File? _mainImage;
-  File? _selectedImage;
+  File? _mainImage; // for holding the image from ImagePicker
+  File? _selectedImage; 
   File? get selectedImage => _selectedImage;
   File? get mainImage => _mainImage;
 
   // Holding multiple elements for carousel slider
-  List<String> _filterList = [];
+  List<String> _filterList = []; // for comparing filters and not calculating same filters again and again
   List<File?> _multipleImages = [];
   List<File?> get multipleImages => _multipleImages;
 

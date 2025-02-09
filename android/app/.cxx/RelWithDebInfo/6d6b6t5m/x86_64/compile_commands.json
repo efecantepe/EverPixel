@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/RelWithDebInfo/6d6b6t5m/x86_64",
+  "command": "C:\\Users\\90543\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android21 --sysroot=C:/Users/90543/AppData/Local/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dmy_functions_EXPORTS -IC:/efe/2024-2025/EverPixel/everpixel/android/app/../../include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -frtti -fexceptions -std=c++11 -O2 -g -DNDEBUG -fPIC -o CMakeFiles\\my_functions.dir\\C_\\efe\\2024-2025\\EverPixel\\everpixel\\open_cv\\my_functions.cpp.o -c C:\\efe\\2024-2025\\EverPixel\\everpixel\\open_cv\\my_functions.cpp",
+  "file": "C:\\efe\\2024-2025\\EverPixel\\everpixel\\open_cv\\my_functions.cpp"
+}
+]

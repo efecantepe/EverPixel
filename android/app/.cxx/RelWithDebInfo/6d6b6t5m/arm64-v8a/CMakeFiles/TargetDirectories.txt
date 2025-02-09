@@ -1,0 +1,3 @@
+C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/RelWithDebInfo/6d6b6t5m/arm64-v8a/CMakeFiles/my_functions.dir
+C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/RelWithDebInfo/6d6b6t5m/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/RelWithDebInfo/6d6b6t5m/arm64-v8a/CMakeFiles/rebuild_cache.dir
