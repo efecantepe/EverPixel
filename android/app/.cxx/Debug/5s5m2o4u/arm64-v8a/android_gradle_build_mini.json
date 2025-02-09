@@ -17,10 +17,10 @@
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
-    "my_functions::@6890427a1f51a3e7e1df": {
-      "artifactName": "my_functions",
+    "opencv::@6890427a1f51a3e7e1df": {
+      "artifactName": "opencv",
       "abi": "arm64-v8a",
-      "output": "C:\\efe\\2024-2025\\EverPixel\\everpixel\\build\\app\\intermediates\\cxx\\Debug\\5s5m2o4u\\obj\\arm64-v8a\\libmy_functions.so",
+      "output": "C:\\efe\\2024-2025\\EverPixel\\everpixel\\build\\app\\intermediates\\cxx\\Debug\\5s5m2o4u\\obj\\arm64-v8a\\libopencv.so",
       "runtimeFiles": [
         "C:\\efe\\2024-2025\\EverPixel\\everpixel\\android\\app\\src\\main\\jniLibs\\arm64-v8a\\libopencv_java4.so"
       ]

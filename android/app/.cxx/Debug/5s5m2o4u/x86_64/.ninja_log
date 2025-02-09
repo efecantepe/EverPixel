@@ -1,13 +1,5 @@
 # ninja log v5
-1	4174	7605000400089917	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
-4190	4525	7605000403718164	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
-14	4034	7605469862076423	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
-4035	4425	7605469866020472	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
-11	3975	7605486073878925	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
-3976	4178	7605486075999399	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
-14	4201	7606250958799001	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
-4202	4627	7606250963154429	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
-17	5218	7606468284135466	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
-5221	5856	7606468290537596	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
 15	4180	7607559365492863	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	e882c30dd269d111
 4182	4508	7607559368876532	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libmy_functions.so	c8d7aed2e49c846a
+1	4131	7608028967095344	CMakeFiles/opencv.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/opencv.cpp.o	13d6eb450f1f31e8
+4133	4340	7608028969374147	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/x86_64/libopencv.so	6c654b97743b2a10

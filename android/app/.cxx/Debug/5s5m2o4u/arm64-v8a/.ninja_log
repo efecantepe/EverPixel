@@ -1,13 +1,5 @@
 # ninja log v5
-2	19428	7605000164599479	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
-19444	19712	7605000167527134	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
-59	20185	7605469715224137	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
-20186	21140	7605469724931860	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
-41	5373	7605485940853849	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
-5374	5859	7605485945793297	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
-68	22052	7606250810497249	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
-22054	22979	7606250819947630	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
-64	22010	7606468111711196	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
-22012	22929	7606468121104991	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
-55	21309	7607559212771922	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
 21310	21738	7607559217338149	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libmy_functions.so	fee8121c2eca4a77
+55	21309	7607559212771922	CMakeFiles/my_functions.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/my_functions.cpp.o	f4843b956824301c
+2	20939	7608028808612802	CMakeFiles/opencv.dir/C_/efe/2024-2025/EverPixel/everpixel/open_cv/opencv.cpp.o	5ff2edcdda873536
+20940	21420	7608028813686404	C:/efe/2024-2025/EverPixel/everpixel/build/app/intermediates/cxx/Debug/5s5m2o4u/obj/arm64-v8a/libopencv.so	3f5e74141000fc7b

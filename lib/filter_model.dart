@@ -58,7 +58,7 @@ class SingleFilterModel extends ChangeNotifier {
   // Holding multiple elements for carousel slider
   List<String> _filterList = []; // for comparing filters and not calculating same filters again and again
   List<File?> _multipleImages = [];
-  List<File?> get multipleImages => _multipleImages;
+  List<File?> get multipleImages => _multipleImages; // it wil hold intermediate images
 
   deletePhotos() {
     _selectedImage = null;
@@ -86,6 +86,7 @@ class SingleFilterModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Main function for converting images. According to filter it will send the appropriate filters
   Future<String?> _convertImage(
       String filterType, File? mainImage, String? outputPath) async {
     final image = mainImage ?? _mainImage;
@@ -143,6 +144,8 @@ class SingleFilterModel extends ChangeNotifier {
     return _convertImage('E', mainImage, outputPath);
   }
 
+
+  // For calculating the intermediate images and notifying the page.
   Future<void> applyMultipleFilters(List<String> filters) async {
     if (filters.isEmpty) {
       _multipleImages.clear();
@@ -162,7 +165,7 @@ class SingleFilterModel extends ChangeNotifier {
       commonPrefixLength++;
     }
 
-    // If all elements are the same, return early
+    // If all elements are the same, return early. If not filters change to a certain point no need to recalculate again and again.
     if (commonPrefixLength == filters.length &&
         commonPrefixLength == _filterList.length) {
       return;
@@ -206,7 +209,7 @@ class SingleFilterModel extends ChangeNotifier {
     _multipleImages = intermediateImages;
     _selectedImage = currentImage;
     _filterList = List.from(filters);
-    notifyListeners();
+    notifyListeners(); // Notifying the user interface after the calculating the images.
   }
 
   Future<void> resetAll() async {
