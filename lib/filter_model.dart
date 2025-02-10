@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
 
 
 /*
@@ -50,6 +53,8 @@ final _convertImageToEdgeImage = _lib
 */
 
 class SingleFilterModel extends ChangeNotifier {
+
+
   File? _mainImage; // for holding the image from ImagePicker
   File? _selectedImage; 
   File? get selectedImage => _selectedImage;
@@ -284,4 +289,49 @@ class SingleFilterModel extends ChangeNotifier {
       calloc.free(outputPathUtf8);
     }
   }
+Future<void> sendImageToServer(String filterType) async {
+  if (_selectedImage == null) {
+    print("No Image Selected");
+    return;
+  }
+
+  final url = Uri.parse("http://10.0.2.2:5000/filter");
+  var request = http.MultipartRequest("POST", url);
+
+  request.fields['filterType'] = filterType;
+  request.files.add(await http.MultipartFile.fromPath('image', _selectedImage!.path));
+
+  try {
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+    var responseBody = await response.stream.bytesToString();
+    var jsonResponse = json.decode(responseBody);
+
+    String base64String = jsonResponse['image'];
+    Uint8List imageBytes = base64Decode(base64String);
+ 
+    Directory tempDir = await getTemporaryDirectory();
+    String filePath = '${tempDir.path}/filtered_image$filterType.png';
+    File file = File(filePath);
+
+    if (await file.exists()) {
+        await file.delete(); 
+    }
+
+    await file.writeAsBytes(imageBytes, flush: true);
+
+    _selectedImage = file;
+
+    notifyListeners();
+
+    } else {
+      print('Failed to upload image. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error uploading image: $e');
+  }
+}
+
+
 }

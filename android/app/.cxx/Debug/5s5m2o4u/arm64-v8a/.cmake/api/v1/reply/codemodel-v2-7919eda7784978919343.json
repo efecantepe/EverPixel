@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "opencv::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-opencv-Debug-87d96eee0d4a0c63efdf.json",
+					"jsonFile" : "target-opencv-Debug-2d22841e977c9fc871d1.json",
 					"name" : "opencv",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/Debug/5s5m2o4u/x86_64",
+		"build" : "C:/efe/2024-2025/EverPixel/everpixel/android/app/.cxx/Debug/5s5m2o4u/arm64-v8a",
 		"source" : "C:/efe/2024-2025/EverPixel/everpixel/android/app"
 	},
 	"version" : 

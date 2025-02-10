@@ -135,29 +135,29 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> {
           children: [
             IconButton(
               onPressed: () {
-                final singleFiler = context.read<SingleFilterModel>();
-                singleFiler.convertOriginal();
+                final singleFilter = context.read<SingleFilterModel>();
+                singleFilter.convertOriginal();
               },
               icon: Icon(Icons.image, color: Colors.green),
             ),
             IconButton(
               onPressed: () {
                 final singleFilter = context.read<SingleFilterModel>();
-                singleFilter.convertGray();
+                singleFilter.sendImageToServer("G");
               },
               icon: Icon(Icons.filter_b_and_w),
             ),
             IconButton(
               onPressed: () {
                 final singleFilter = context.read<SingleFilterModel>();
-                singleFilter.convertBlur();
+                singleFilter.sendImageToServer("B");
               },
               icon: Icon(Icons.blur_on, color: Colors.blue),
             ),
             IconButton(
               onPressed: () {
                 final singleFilter = context.read<SingleFilterModel>();
-                singleFilter.convertSharpen();
+                singleFilter.sendImageToServer("S");
               },
               icon: Icon(Icons.auto_awesome,
                   color: const Color.fromARGB(255, 235, 127, 163)),
@@ -165,7 +165,7 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> {
             IconButton(
               onPressed: () {
                 final singleFilter = context.read<SingleFilterModel>();
-                singleFilter.convertEdge();
+                singleFilter.sendImageToServer("E");
               },
               icon: Icon(Icons.border_all),
             ),
@@ -270,17 +270,13 @@ class _MultipleFilterState extends State<MultipleFilter> {
                 );
               }).toList()),
         ),
+
+        /* After adding new filter by clickking to the filter buttons I call for applyMultipleFilters and recalculate the filters. This causes inefficiencies.
+           Instead of that maybe a button might be added to call applyMultipleFilters.
+        */ 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _filterList.add("O");
-                });
-              },
-              icon: Icon(Icons.image, color: Colors.green),
-            ),
             IconButton(
               onPressed: () {
                 setState(() {
