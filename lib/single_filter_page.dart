@@ -26,6 +26,10 @@ class _SingleFilterPageState extends State<SingleFilterPage> {
                   onPressed: () {
                     setState(() {
                       _isSingleFilterActivated = !_isSingleFilterActivated;
+                      final singleFilter = context.read<SingleFilterModel>();
+                      singleFilter.resetAll();
+                      
+
                     });
                   })
             ],

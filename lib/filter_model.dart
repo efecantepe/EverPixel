@@ -8,6 +8,7 @@ import 'package:ffi/ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 
 /*
@@ -54,6 +55,7 @@ final _convertImageToEdgeImage = _lib
 
 class SingleFilterModel extends ChangeNotifier {
 
+  int pathCount = 0;
 
   File? _mainImage; // for holding the image from ImagePicker
   File? _selectedImage; 
@@ -218,9 +220,9 @@ class SingleFilterModel extends ChangeNotifier {
   }
 
   Future<void> resetAll() async {
-    _mainImage = null;
-    _selectedImage = null;
+    _selectedImage = _mainImage;
     _multipleImages = [];
+    _multipleImages.add(_mainImage);
     _filterList = [];
 
     final Directory tempDir = await getTemporaryDirectory();
@@ -290,7 +292,7 @@ class SingleFilterModel extends ChangeNotifier {
     }
   }
 Future<void> sendImageToServer(String filterType) async {
-  if (_selectedImage == null) {
+  if (_mainImage == null) {
     print("No Image Selected");
     return;
   }
@@ -299,7 +301,7 @@ Future<void> sendImageToServer(String filterType) async {
   var request = http.MultipartRequest("POST", url);
 
   request.fields['filterType'] = filterType;
-  request.files.add(await http.MultipartFile.fromPath('image', _selectedImage!.path));
+  request.files.add(await http.MultipartFile.fromPath('image', _mainImage!.path));
 
   try {
     var response = await request.send();
@@ -312,7 +314,8 @@ Future<void> sendImageToServer(String filterType) async {
     Uint8List imageBytes = base64Decode(base64String);
  
     Directory tempDir = await getTemporaryDirectory();
-    String filePath = '${tempDir.path}/filtered_image$filterType.png';
+    String uniqueId = Uuid().v4();
+    String filePath = '${tempDir.path}/filtered_image$filterType$uniqueId.png';
     File file = File(filePath);
 
     if (await file.exists()) {
